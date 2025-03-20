@@ -28,6 +28,48 @@ server.tool(
         },
       });
       const json = await response.data();
+
+      const claudeResponse = await axios.post(
+        "https://api.anthropic.com/v1/messages",
+        {
+          model: "claude-3.5",
+          max_tokens: 1024,
+          messages: [
+            {
+              role: "user",
+              content: `You are an EigenLayer AVS Data Assistant. Your task is to analyse AVS data and response to user queries.
+              
+
+                Here is the AVS data from the EigenExplorer API:
+                ${JSON.stringify(json, null, 2)}
+
+
+                User query: ${fullPrompt}
+                AVS name: ${avsName}
+
+                Provide detailed well-structured reponse that directly addresses user queries.
+              `,
+            },
+          ],
+
+          headers: {
+            "x-api-key": process.env.CLAUDE_API_KEY || "",
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+          },
+        }
+      );
+
+      const data = await claudeResponse.data();
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: `${data.content[0].text}`,
+          },
+        ],
+      };
     } catch (error) {
       return {
         content: [
@@ -40,3 +82,10 @@ server.tool(
     }
   }
 );
+
+async function avsServer() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}
+
+avsServer();
