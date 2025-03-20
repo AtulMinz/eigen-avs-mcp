@@ -4,7 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun index.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
+    "@types/node": "^22.13.10",
     "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "zod": "^3.24.2"
