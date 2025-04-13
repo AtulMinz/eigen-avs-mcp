@@ -1,1 +1,1 @@
-### Eigen Layer AVS MCP Server
+### Eigen Layer AVS MCP Server (Example)
